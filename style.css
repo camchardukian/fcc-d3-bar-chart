@@ -1,12 +1,11 @@
 body {
   padding: 32px 16px;
-  border: 2px solid teal;
+  /* border: 2px solid teal; */
   text-align: center;
 }
 
 svg {
   border: 1px solid red;
-  margin-left: 0 auto;
 }
 
 .bar {
