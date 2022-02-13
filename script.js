@@ -9,4 +9,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   const { data } = await response.json();
   console.log("data", data);
+
+  const svg = d3
+    .select("body")
+    .append("svg")
+    .attr("width", 600)
+    .attr("height", 300);
 });
