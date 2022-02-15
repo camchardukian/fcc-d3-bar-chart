@@ -46,4 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         .attr("class", "bar")
         .attr("data-date", (d) => d[0])
         .attr("data-gdp", (d) => d[1])
+
+        // TOOLTIP
+        .append("title")
+        .text((d) => `Date: ${d[0]}, GDP (in billions): ${d[1]}`)
+        .attr("id", "tooltip")
+        .attr("data-date", (d) => d[0]);
 });
