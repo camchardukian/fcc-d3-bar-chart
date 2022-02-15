@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const padding = 60;
     const scaleX = d3.scaleLinear()
         .domain([d3.min(data, (d) => {
-            return parseInt(d[0].substring(0, 4))
+            return parseInt(d[0])
         }), d3.max(data, (d) => {
-            return parseInt(d[0].substring(0, 4))
+            return parseInt(d[0])
         })])
         .range([padding, width - padding])
     const scaleY = d3.scaleLinear()
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         .attr("width", width)
         .attr("height", height)
     // AXES
-    const xAxis = d3.axisBottom(scaleX)
+    const xAxis = d3.axisBottom(scaleX).tickFormat((d, i) => d)
     const yAxis = d3.axisLeft(scaleY)
 
     svg.append("g").attr("id", "x-axis").attr("transform", `translate(0, ${height - padding})`).call(xAxis)
