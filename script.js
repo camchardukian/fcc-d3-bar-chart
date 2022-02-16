@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error(errorMessage);
     }
     const { data } = await response.json();
-    console.log("data", data);
 
     const width = 800;
     const height = 400;
@@ -31,16 +30,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // AXES
     const xAxis = d3.axisBottom(scaleX).tickFormat((d, i) => d)
     const yAxis = d3.axisLeft(scaleY)
+    const barWidth = 2.48
 
     const tooltip = d3.select("body")
         .append("div")
         .attr("id", "tooltip")
-        .style("visibility", "hidden")
-        .style("width", "auto")
-        .style("height", "auto")
-        .style("background-color", "lightblue")
-        .style("display", "inline-block")
-        .style("padding", "8px 16px")
 
     svg.append("g").attr("id", "x-axis").attr("transform", `translate(0, ${height - padding})`).call(xAxis)
     svg.append("g").attr("id", "y-axis").attr("transform", `translate(${padding}, 0)`).call(yAxis)
@@ -49,9 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         .data(data)
         .enter()
         .append("rect")
-        .attr("x", (_, i) => (width - (padding * 2)) / data.length * i)
+        .attr("x", (_, i) => i * barWidth)
         .attr("y", (d) => scaleY(d[1]))
-        .attr("width", (width - (padding * 2)) / data.length * 0.75)
+        .attr("width", barWidth)
         .attr("height", (d) => height - padding - scaleY(d[1]))
         .attr("class", "bar")
         .attr("data-date", (d) => d[0])
