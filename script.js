@@ -32,6 +32,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const xAxis = d3.axisBottom(scaleX).tickFormat((d, i) => d)
     const yAxis = d3.axisLeft(scaleY)
 
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("id", "tooltip")
+        .style("visibility", "hidden")
+        .style("width", "auto")
+        .style("height", "auto")
+        .style("background-color", "lightblue")
+        .style("display", "inline-block")
+        .style("padding", "8px 16px")
+
     svg.append("g").attr("id", "x-axis").attr("transform", `translate(0, ${height - padding})`).call(xAxis)
     svg.append("g").attr("id", "y-axis").attr("transform", `translate(${padding}, 0)`).call(yAxis)
         // RECT
@@ -46,10 +56,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         .attr("class", "bar")
         .attr("data-date", (d) => d[0])
         .attr("data-gdp", (d) => d[1])
-
-        // TOOLTIP
-        .append("title")
-        .text((d) => `Date: ${d[0]}, GDP (in billions): ${d[1]}`)
-        .attr("id", "tooltip")
-        .attr("data-date", (d) => d[0]);
+        .on("mouseenter", (item) => {
+            const barData = item.target?.__data__
+            tooltip.transition()
+                .style("visibility", "visible")
+                .text(`Date: ${barData[0]}, GDP ${barData[1]} (in billions)`)
+            // @NOTE: On my own project I'd prefer to set the "data-date" using D3 rather than directly using JS,
+            // but doing so strips unnecessary zeroes from the date which causes the FCC unit test for the tooltip's attribute to fail.
+            document.getElementById("tooltip").setAttribute("data-date", barData[0])
+        })
+        .on("mouseout", () => tooltip.transition().style("visibility", "hidden"))
 });
